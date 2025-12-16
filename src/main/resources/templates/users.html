@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>USERS</title>
+</head>
+<body>
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user.id}"></span>
+        <span th:text="${user.name}"></span>
+        <span th:text="${user.email}"></span>
+    </li>
+</ul>
+<form th:action="@{/users}" method="post" th:object="${newUser}">
+    <input type="text" th:field="*{name}" placeholder="Name"/>
+    <input type="email" th:field="*{email}" placeholder="Email"/>
+    <button type="submit">Create</button>
+</form>
+<h3>Обновить</h3>
+<form th:action="@{/users}" method="post" th:object="${updateUser}">
+    <input type="hidden" name="_method" value="put"/>
+    <input type="number" th:field="*{id}" placeholder="ID"/>
+    <input type="text" th:field="*{name}" placeholder="Новое имя"/>
+    <input type="email" th:field="*{email}" placeholder="Новый Email"/>
+    <button type="submit">Обновить</button>
+</form>
+<form th:action="@{/users/delete}" method="post">
+    <input type="number" name="id" placeholder="ID to delete"/>
+    <button type="submit">Удалить</button>
+</form>
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User page</title>
+</head>
+<body>
+
+<h2>User page</h2>
+
+<div>
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<hr/>
+
+<div th:if="${user == null}">
+    <p>User not found: <b th:text="${email}"></b></p>
+    <p>Test accounts: <b>admin@mail.ru</b> or <b>user@mail.ru</b>.</p>
+</div>
+
+<div th:if="${user != null}">
+    <p><b>Id:</b> <span th:text="${user.id}"></span></p>
+    <p><b>Name:</b> <span th:text="${user.name}"></span></p>
+    <p><b>Email:</b> <span th:text="${user.email}"></span></p>
+    <p><b>Roles:</b>
+        <span th:each="r, st : ${user.roles}" th:text="${r.name + (st.last ? '' : ', ')}"></span>
+    </p>
+</div>
+
+<hr/>
+
+<p>
+    <a th:href="@{/}">Home</a>
+    <span sec:authorize="hasAuthority('ROLE_ADMIN')">
+        | <a th:href="@{/admin}">Admin</a>
+    </span>
+</p>
+
+
+</body>
+</html>
